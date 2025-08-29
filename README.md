@@ -13,12 +13,16 @@ Additional profiles can be easily generated from the included Python script.
 **Pitch:** Various, based on the ISO standard
 **Classes:** O.0, O.1, O.2, 0.3, O.4, 0.5, 0.6, 0.7, O.8, 0.9
 
+
 The classes specify tolerances.
 O.0 has the tightest tolerances which are loosely based on ISO M30x3.5 6g/6H.
 The number after the 'O.' specifies, in tenths of a millimeter, how much the major, minor and pitch diameters are offset compared to O.0.
 For example, O.2 would have a 0.2mm looser tolerance than O.0.
 
-If your goal is to use real metal bolts in 3D printed threaded holes, I find that 0.6 works well.
+If your goal is to use real metal bolts in 3D printed threaded holes, I find that **0.6** works well.
+
+![M4 Thread Example 1](m4_thread_example_1.jpg)
+![M4 Thread Example 2](m4_thread_example_2.jpg)
 
 ## Install and Use
 
@@ -38,7 +42,7 @@ This will open the correct folder in the Finder
 
 (see also [here](https://knowledge.autodesk.com/support/fusion-360/learn-explore/caas/sfdcarticles/sfdcarticles/Custom-Threads-in-Fusion-360.html))
 
-When you now create or edit a *Thread* feature, you should be able to select the Thread Type *"3D-printed Metric Threads"*.
+When you now create or edit a *Thread* feature, you should be able to select the Thread Type *"3D-printed Metric Threads V4"*.
 
 ![Select Thread Type in Fusion 360](ss_fusion.png)
 
