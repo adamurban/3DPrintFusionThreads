@@ -9,8 +9,11 @@ The provided `3DPrintedMetricV4.xml` file contains the thread profiles listed be
 Additional profiles can be easily generated from the included Python script.
 
 **Shape:** 60° trapezoidal
+<br>
 **Size (OD):** 1-50mm
+<br>
 **Pitch:** Various, based on the ISO standard
+<br>
 **Classes:** O.0, O.1, O.2, 0.3, O.4, 0.5, 0.6, 0.7, O.8, 0.9
 
 
@@ -20,9 +23,10 @@ The number after the 'O.' specifies, in tenths of a millimeter, how much the maj
 For example, O.2 would have a 0.2mm looser tolerance than O.0.
 
 If your goal is to use real metal bolts in 3D printed threaded holes, I find that **0.6** works well.
-
-![M4 Thread Example 1](m4_thread_example_1.jpg)
-![M4 Thread Example 2](m4_thread_example_2.jpg)
+<p align="center">
+    <img src="m4_thread_example_1.jpg" alt="M4 Thread Example 1" height="400">
+    <img src="m4_thread_example_2.jpg" alt="M4 Thread Example 2" height="400">
+</p>
 
 ## Install and Use
 
