@@ -251,7 +251,7 @@ class SAE3Dprinted(ThreadProfile):
    def threads(self, designation):
        ts = []
        for offset in self.offsets:
-           tolerance_offset = offset * 0.0001  # Convert to inches
+           tolerance_offset = offset / 25.4  # Convert mm equivalent to inches
            offset_decimals = str(offset)[2:]  # skips the '0.' at the start
 
            # SAE/UTS thread calculations
@@ -275,30 +275,27 @@ class SAE3Dprinted(ThreadProfile):
                else:
                    D = float(D)
 
-           # For external threads (bolts)
-           Dp_ext = D - 0.649519 * P  # Pitch diameter for external threads
-           Dmin_ext = D - 1.299038 * P  # Minor diameter for external threads
-
-           # For internal threads (nuts)
-           Dp_int = D + 0.649519 * P  # Pitch diameter for internal threads
-           Dmaj_int = D + 1.299038 * P  # Major diameter for internal threads
+           # Base diameters (same for external and internal at O.0)
+           base_major = D
+           base_pitch = D - 0.649519 * P
+           base_minor = D - 1.299038 * P
 
            # External thread
            t = Thread()
            t.gender = "external"
            t.clazz = "O.{}".format(offset_decimals)
-           t.majorDia = D - tolerance_offset
-           t.pitchDia = Dp_ext - tolerance_offset
-           t.minorDia = Dmin_ext - tolerance_offset
+           t.majorDia = base_major - tolerance_offset
+           t.pitchDia = base_pitch - tolerance_offset
+           t.minorDia = base_minor - tolerance_offset
            ts.append(t)
 
            # Internal thread
            t = Thread()
            t.gender = "internal"
            t.clazz = "O.{}".format(offset_decimals)
-           t.majorDia = Dmaj_int + tolerance_offset
-           t.pitchDia = Dp_int + tolerance_offset
-           t.minorDia = D + tolerance_offset
+           t.majorDia = base_major + tolerance_offset
+           t.pitchDia = base_pitch + tolerance_offset
+           t.minorDia = base_minor + tolerance_offset
            # Tap drill = basic major diameter minus pitch
            t.tapDrill = D - P
            ts.append(t)
