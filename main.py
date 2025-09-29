@@ -193,8 +193,8 @@ class SAE3Dprinted(ThreadProfile):
            self.nominalDiameter = diameter
            self.threadsPerInch = tpi
            self.threadType = thread_type
-           # Convert TPI to pitch in mm
-           self.pitch = 25.4 / tpi  # 25.4 mm per inch
+           # Convert TPI to pitch in inches
+           self.pitch = 1.0 / tpi
            # Handle fractional diameters in name
            if isinstance(diameter, str) and '/' in diameter:
                self.name = "{} {}-{}".format(thread_type, diameter, tpi)
@@ -251,11 +251,12 @@ class SAE3Dprinted(ThreadProfile):
    def threads(self, designation):
        ts = []
        for offset in self.offsets:
+           tolerance_offset = offset * 0.0001  # Convert to inches
            offset_decimals = str(offset)[2:]  # skips the '0.' at the start
 
            # SAE/UTS thread calculations
            # Based on Unified Thread Standard
-           P = designation.pitch  # Pitch in mm
+           P = designation.pitch  # Pitch in inches
 
            # Convert diameter to decimal if it's a fraction
            D = designation.nominalDiameter
@@ -280,24 +281,24 @@ class SAE3Dprinted(ThreadProfile):
 
            # For internal threads (nuts)
            Dp_int = D + 0.649519 * P  # Pitch diameter for internal threads
-           Dmin_int = D + 1.299038 * P  # Minor diameter for internal threads
+           Dmaj_int = D + 1.299038 * P  # Major diameter for internal threads
 
            # External thread
            t = Thread()
            t.gender = "external"
            t.clazz = "O.{}".format(offset_decimals)
-           t.majorDia = D - offset
-           t.pitchDia = Dp_ext - offset
-           t.minorDia = Dmin_ext - offset
+           t.majorDia = D - tolerance_offset
+           t.pitchDia = Dp_ext - tolerance_offset
+           t.minorDia = Dmin_ext - tolerance_offset
            ts.append(t)
 
            # Internal thread
            t = Thread()
            t.gender = "internal"
            t.clazz = "O.{}".format(offset_decimals)
-           t.majorDia = D + offset
-           t.pitchDia = Dp_int + offset
-           t.minorDia = Dmin_int + offset
+           t.majorDia = Dmaj_int + tolerance_offset
+           t.pitchDia = Dp_int + tolerance_offset
+           t.minorDia = D + tolerance_offset
            # Tap drill = basic major diameter minus pitch
            t.tapDrill = D - P
            ts.append(t)
@@ -346,7 +347,7 @@ def generate():
 
     ET.SubElement(sae_root, "Name").text = sae_name
     ET.SubElement(sae_root, "CustomName").text = sae_name
-    ET.SubElement(sae_root, "Unit").text = UNIT
+    ET.SubElement(sae_root, "Unit").text = "in"
     ET.SubElement(sae_root, "Angle").text = str(ANGLE)
     ET.SubElement(sae_root, "SortOrder").text = "4"
 
